@@ -52,4 +52,24 @@ def data_subsetter(
 
 def data_mapper(df_dict: pd.DataFrame, df_sample: pd.DataFrame) -> \
         pd.DataFrame:
-    pass
+
+    df_null = pd.DataFrame(columns=["Data input", "Error Message"])
+
+    try:
+        assert df_dict.shape[1] == 2, "Mapper is expected 2 columns in look " \
+                                      "up table"
+
+    except AssertionError as e:
+        df_null = df_null.from_dict({"Data input": [df_dict.shape], "Error Message": e})
+        return df_null
+
+    else:
+        d1 = df_dict.set_index([df_dict.columns[0]]).to_dict()
+        s_map = df_sample[df_sample.columns[0]].apply(
+            lambda x: d1[df_dict.columns[1]].get(x, "Not Found"))
+        df_sample["Mapped Values"] = s_map
+        return df_sample
+
+
+
+
