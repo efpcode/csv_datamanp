@@ -69,7 +69,3 @@ def data_mapper(df_dict: pd.DataFrame, df_sample: pd.DataFrame) -> \
             lambda x: d1[df_dict.columns[1]].get(x, "Not Found"))
         df_sample["Mapped Values"] = s_map
         return df_sample
-
-
-
-
